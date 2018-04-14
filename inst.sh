@@ -4,8 +4,8 @@ echo "Start install ArchLinux"
 
 echo "[Make FS]"
 mkfs.fat -F32 /dev/nvme0n1p1
-mkfs.ext4 /dev/nvme0n1p3
-mkfs.ext4 /dev/nvme0n1p4
+mkfs.ext4 -F /dev/nvme0n1p3
+mkfs.ext4 -F /dev/nvme0n1p4
 
 echo "[Make swap]"
 mkswap /dev/nvme0n1p2
