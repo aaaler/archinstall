@@ -4,11 +4,10 @@ echo "[Setup ArchLinux]"
 host_name="anikiforov_nb"
 user_name="anikiforov"
 pass_common="1"
-pacman_pkg="grub efibootmgr dnsutils xorg-server xorg-xinit xorg-server-utils mesa python2 git mc zsh openssh wget dialog wpa_supplicant dwm xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family slim"
+pacman_pkg="grub efibootmgr intel-ucode dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family slim"
 
 
 echo "[Set locale and fonts]"
-
 echo LANG=ru_RU.UTF-8 > /etc/locale.conf
 #echo LANG=en_US.UTF-8 > /etc/locale.conf
 sed -i 's/#ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/g' /etc/locale.gen
@@ -37,7 +36,7 @@ echo -e "$pass_common\n$pass_common" | passwd
 echo -e "$pass_common\n$pass_common" | passwd $user_name
 chsh -s /bin/zsh
 
-#gdb
+#dbg
 systemctl enable slim.service
 
 echo "[Install GRUB]"
