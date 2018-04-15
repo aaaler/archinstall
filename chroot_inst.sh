@@ -31,11 +31,11 @@ pacman -S $pacman_pkg --noconfirm
 echo "[Install pacman]"
 
 echo "[Add user]"
-useradd -m -g users -G lp,optical,power,storage,video -s /bin/zsh $user_name
+useradd -m -g users -G lp,optical,power,storage,video,audio,wheel -s /bin/zsh $user_name
 echo -e "$pass_common\n$pass_common" | passwd
 echo -e "$pass_common\n$pass_common" | passwd $user_name
 chsh -s /bin/zsh
-
+sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g' /etc/sudoers
 
 echo "[Install pacaur]"
 cd /tmp
