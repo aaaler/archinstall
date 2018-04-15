@@ -51,6 +51,9 @@ cp chroot_inst.sh /mnt/install/chroot_inst.sh
 echo "[Run chroot script]"
 arch-chroot /mnt /install/chroot_inst.sh
 
+echo "[Clean]"
+rm -rf /mnt/install
+
 echo "[Umount all]"
 umount -R /mnt
 
