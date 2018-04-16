@@ -62,7 +62,7 @@ sudo -u $user_name makepkg
 pacman -U pacaur-*.pkg.tar.xz --noconfirm
 
 echo "[Install pacaur]"
-sudo -u $user_name pacaur -S --noconfirm --noedit oh-my-zsh-git
+sudo -u $user_name pacaur -S --noconfirm --noedit oh-my-zsh-git rxvt-unicode-patched
 
 #dbg
 systemctl enable slim.service
