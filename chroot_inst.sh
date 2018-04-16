@@ -46,7 +46,7 @@ cd package-query
 sudo -u $user_name makepkg
 pacman -U package-query-*.pkg.tar.xz --noconfirm
 
-#gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com 1EB2638FF56C0C53
+gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com 1EB2638FF56C0C53
 cd /tmp
 git clone https://aur.archlinux.org/cower.git
 chown -R $user_name cower
