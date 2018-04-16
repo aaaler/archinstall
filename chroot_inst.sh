@@ -4,7 +4,7 @@ echo "[Setup ArchLinux]"
 host_name="anikiforov_nb"
 user_name="anikiforov"
 pass_common="1"
-pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family slim"
+pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family slim chromium"
 
 
 echo "[Set locale and fonts]"
@@ -36,7 +36,7 @@ useradd -m -g users -G lp,optical,power,storage,video,audio,wheel -s /bin/zsh $u
 echo -e "$pass_common\n$pass_common" | passwd
 echo -e "$pass_common\n$pass_common" | passwd $user_name
 chsh -s /bin/zsh
-sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g' /etc/sudoers
+sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
 
 echo "[Install pacaur]"
 cd /tmp
@@ -60,6 +60,9 @@ chown -R $user_name pacaur
 cd pacaur
 sudo -u $user_name makepkg
 pacman -U pacaur-*.pkg.tar.xz --noconfirm
+
+echo "[Install pacaur]"
+sudo -u $user_name pacaur -S --noconfirm --noedit oh-my-zsh-git
 
 #dbg
 systemctl enable slim.service
