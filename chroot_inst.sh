@@ -4,7 +4,7 @@ echo "[Setup ArchLinux]"
 host_name="anikiforov_nb"
 user_name="anikiforov"
 pass_common="1"
-pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family slim chromium"
+pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family slim chromium arandr mesa-demos"
 
 
 echo "[Set locale and fonts]"
