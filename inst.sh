@@ -49,9 +49,6 @@ mkdir /mnt/install
 cp chroot_inst.sh /mnt/install/chroot_inst.sh
 cp /etc/netctl/encr /mnt/etc/netctl
 
-echo "dbg pause" 
-read
-
 echo "[Run chroot script]"
 arch-chroot /mnt /install/chroot_inst.sh
 

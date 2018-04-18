@@ -72,10 +72,10 @@ grub-install --recheck /dev/sda --efi-directory=/boot
 sed -i 's/^GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
-
 echo "[Install home]"
+cd /tmp
 git clone https://github.com/nikalexey/archconfig.git
-cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb etc/udev/hwdb.d
+cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d
 cp archconfig/home/.Xresources /home/$user_name/
 cp -r archconfig/home/.urxvt /home/$user_name/
 cp -r archconfig/home/.config /home/$user_name/
