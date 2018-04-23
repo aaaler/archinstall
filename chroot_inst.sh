@@ -69,6 +69,7 @@ sudo -u $user_name pacaur -S --noconfirm --noedit  $pacaur_pkg
 
 echo "[System settings]"
 sed -i 's/^#greeter-session=.*/greeter-session=lightdm-webkit2-greeter/g' /etc/lightdm/lightdm.conf
+sed -i 's/^#display-setup-script=.*/display-setup-script=etc\/lightdm\/display_setup.sh/g' /etc/lightdm/lightdm.conf
 systemctl enable lightdm.service
 pacman -S nvidia-dkms
 
@@ -81,6 +82,9 @@ echo "[Install home]"
 cd /tmp
 git clone https://github.com/nikalexey/archconfig.git
 cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d
+cp archconfig/etc/lightdm/display_setup.sh /etc/lightdm
+cp archconfig/etc/modprobe.d/nvidia.conf /etc/modprobe.d/nvidia.conf
+chmod +x /etc/lightdm/display_setup.sh
 cp -r archconfig/home/ /home/$user_name/
 chown $user_name:users /home/$user_name
 
