@@ -4,7 +4,7 @@ echo "[Setup ArchLinux]"
 host_name="anikiforov_nb"
 user_name="anikiforov"
 pass_common="1"
-pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm lightdm-webkit2-greeter chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm"
+pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm lightdm-webkit2-greeter chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers bumblebee"
 pacaur_pkg="oh-my-zsh-git rxvt-unicode-patched sublime-text-dev ttf-fira-code zsh-syntax-highlighting"
 
 echo "[Set locale and fonts]"
@@ -30,12 +30,11 @@ hwclock --systohc --utc
 
 echo "[Install package]"
 pacman -Syu
-pacman -S --noconfirm --needed dkms
 pacman -S --noconfirm --needed archlinux-keyring
 pacman -S --noconfirm --needed $pacman_pkg
 
 echo "[Add user]"
-useradd -m -g users -G lp,optical,power,storage,video,audio,wheel -s /bin/zsh $user_name
+useradd -m -g users -G lp,optical,power,storage,video,audio,wheel,bumblebee -s /bin/zsh $user_name
 echo -e "$pass_common\n$pass_common" | passwd
 echo -e "$pass_common\n$pass_common" | passwd $user_name
 chsh -s /bin/zsh
@@ -71,6 +70,7 @@ echo "[System settings]"
 sed -i 's/^#greeter-session=.*/greeter-session=lightdm-webkit2-greeter/g' /etc/lightdm/lightdm.conf
 sed -i 's/^#display-setup-script=.*/display-setup-script=etc\/lightdm\/display_setup.sh/g' /etc/lightdm/lightdm.conf
 systemctl enable lightdm.service
+systemctl enable bumblebee.service
 pacman -S nvidia-dkms
 
 echo "[Install GRUB]"
