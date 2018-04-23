@@ -4,8 +4,8 @@ echo "[Setup ArchLinux]"
 host_name="anikiforov_nb"
 user_name="anikiforov"
 pass_common="1"
-pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm lightdm-webkit2-greeter chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers bumblebee"
-pacaur_pkg="oh-my-zsh-git rxvt-unicode-patched sublime-text-dev ttf-fira-code zsh-syntax-highlighting"
+pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-video-vesa xf86-video-fbdev xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers bumblebee nvidia-dkms"
+pacaur_pkg="oh-my-zsh-git rxvt-unicode-patched sublime-text-dev ttf-fira-code zsh-syntax-highlighting lightdm-webkit2-greeter"
 
 echo "[Set locale and fonts]"
 echo LANG=ru_RU.UTF-8 > /etc/locale.conf
@@ -71,7 +71,6 @@ sed -i 's/^#greeter-session=.*/greeter-session=lightdm-webkit2-greeter/g' /etc/l
 sed -i 's/^#display-setup-script=.*/display-setup-script=etc\/lightdm\/display_setup.sh/g' /etc/lightdm/lightdm.conf
 systemctl enable lightdm.service
 systemctl enable bumblebee.service
-pacman -S nvidia-dkms
 
 echo "[Install GRUB]"
 grub-install --recheck /dev/sda --efi-directory=/boot
