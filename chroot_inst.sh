@@ -80,17 +80,18 @@ echo "[Install home]"
 cd /tmp
 git clone https://github.com/nikalexey/archconfig.git
 chmod +x /etc/lightdm/display_setup.sh
-cp -r archconfig/home/* /home/$user_name/
+cp -r archconfig/home/. /home/$user_name/
 chown $user_name:users /home/$user_name
 
 echo "[Copy system settings]"
-cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d
-cp archconfig/etc/lightdm/display_setup.sh /etc/lightdm
-cp archconfig/etc/modprobe.d/nvidia.conf /etc/modprobe.d
-cp archconfig/etc/X11/00-keyboard.conf /etc/X11/xorg.conf.d
-cp archconfig/etc/X11/10-security.conf /etc/X11/xorg.conf.d
-cp archconfig/etc/X11/70-synaptics.conf /etc/X11/xorg.conf.d
-cp archconfig/etc/systemd/system/slock@.service /etc/systemd/system
+cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d/
+cp archconfig/etc/lightdm/display_setup.sh /etc/lightdm/
+cp archconfig/etc/modprobe.d/nvidia.conf /etc/modprobe.d/
+cp archconfig/etc/X11/00-keyboard.conf /etc/X11/xorg.conf.d/
+cp archconfig/etc/X11/10-security.conf /etc/X11/xorg.conf.d/
+cp archconfig/etc/X11/70-synaptics.conf /etc/X11/xorg.conf.d/
+cp archconfig/etc/systemd/system/slock@.service /etc/systemd/system/
+chmod +x /etc/lightdm/display_setup.sh
 
 echo "[Setting udev]"
 udevadm hwdb --update
