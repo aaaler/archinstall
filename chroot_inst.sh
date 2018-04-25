@@ -99,7 +99,7 @@ udevadm trigger
 echo "[Enable service]"
 systemctl enable lightdm.service
 systemctl enable bumblebeed.service
-systemctl enable slock@<username>.service
+systemctl enable slock@$user_name.service
 
 #dbg
 # echo -e "exec awesome\n" > /home/$user_name/.xinitrc
