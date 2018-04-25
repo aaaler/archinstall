@@ -44,13 +44,16 @@ genfstab -U -p /mnt >> /mnt/etc/fstab
 
 echo "[Install chroot script]"
 wget https://raw.githubusercontent.com/nikalexey/archinstall/master/chroot_inst.sh
+wget https://raw.githubusercontent.com/nikalexey/archinstall/master/chroot_inst_log.sh
 chmod +x chroot_inst.sh
+chmod +x chroot_inst_log.sh
 mkdir /mnt/install
 cp chroot_inst.sh /mnt/install/chroot_inst.sh
+cp chroot_inst_log.sh /mnt/install/chroot_inst_log.sh
 cp /etc/netctl/encr /mnt/etc/netctl
 
 echo "[Run chroot script]"
-arch-chroot /mnt /install/chroot_inst.sh
+arch-chroot /mnt /install/chroot_inst_log.sh
 
 echo "[Clean]"
 rm -rf /mnt/install
