@@ -73,15 +73,14 @@ sed -i 's/^#display-setup-script=.*/display-setup-script=etc\/lightdm\/display_s
 
 echo "[Install GRUB]"
 grub-install --recheck /dev/sda --efi-directory=/boot
-sed -i 's/^GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
+sed -i 's/^GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/g' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "[Install home]"
 cd /tmp
 git clone https://github.com/nikalexey/archconfig.git
-chmod +x /etc/lightdm/display_setup.sh
 cp -r archconfig/home/. /home/$user_name/
-chown $user_name:users /home/$user_name
+chown -R $user_name:users /home/$user_name
 
 echo "[Copy system settings]"
 cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d/
