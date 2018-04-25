@@ -33,7 +33,8 @@ pacman -Syu
 pacman -S --noconfirm --needed $pacman_pkg
 
 echo "[Add user]"
-useradd -m -g users -G lp,optical,power,storage,video,audio,wheel,bumblebee -s /bin/zsh $user_name
+useradd -m -g users -G lp,optical,power,storage,video,audio,wheel -s /bin/zsh $user_name
+# ,bumblebee
 echo -e "$pass_common\n$pass_common" | passwd
 echo -e "$pass_common\n$pass_common" | passwd $user_name
 chsh -s /bin/zsh
