@@ -83,6 +83,7 @@ cp -r archconfig/home/. /home/$user_name/
 chown -R $user_name:users /home/$user_name
 
 echo "[Copy system settings]"
+cp archconfig/etc/environment /etc/
 cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d/
 cp archconfig/etc/lightdm/display_setup.sh /etc/lightdm/
 cp archconfig/etc/modprobe.d/nvidia.conf /etc/modprobe.d/
