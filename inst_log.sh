@@ -1,6 +1,5 @@
 #!/bin/bash
 
-./inst_log.sh
 echo "Start install ArchLinux"
 
 echo "[Make FS]"
