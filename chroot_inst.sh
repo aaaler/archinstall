@@ -4,8 +4,9 @@ echo "[Setup ArchLinux]"
 host_name="anikiforov_nb"
 user_name="anikiforov"
 pass_common="1"
-pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 python3 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-input-synaptics xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers bumblebee bbswitch nvidia-dkms gdb pavucontrol pulseaudio bluez bluez-utils blueman pulseaudio-bluetooth lib32-libglvnd lib32-mesa lib32-nvidia-utils lib32-virtualgl exfat-utils slock htop iotop dmidecode sysstat fzf lsof tcpdump virtualbox virtualbox-guest-utils qt5-base qt5ct qt5-svg meld"
+pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 python3 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-input-synaptics xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers gdb pavucontrol pulseaudio bluez bluez-utils blueman pulseaudio-bluetooth lib32-libglvnd lib32-mesa lib32-nvidia-utils lib32-virtualgl exfat-utils slock htop iotop dmidecode sysstat fzf lsof tcpdump virtualbox virtualbox-guest-utils qt5-base qt5ct qt5-svg meld"
 pacaur_pkg="oh-my-zsh-git rxvt-unicode-patched sublime-text-dev ttf-fira-code zsh-syntax-highlighting lightdm-webkit2-greeter fzf-extras nnn"
+# bumblebee bbswitch nvidia-dkms
 
 echo "[Set locale and fonts]"
 echo LANG=ru_RU.UTF-8 > /etc/locale.conf
@@ -69,7 +70,7 @@ sudo -u $user_name pacaur -S --noconfirm --noedit  $pacaur_pkg
 
 echo "[System settings]"
 sed -i 's/^#greeter-session=.*/greeter-session=lightdm-webkit2-greeter/g' /etc/lightdm/lightdm.conf
-sed -i 's/^#display-setup-script=.*/display-setup-script=etc\/lightdm\/display_setup.sh/g' /etc/lightdm/lightdm.conf
+# sed -i 's/^#display-setup-script=.*/display-setup-script=etc\/lightdm\/display_setup.sh/g' /etc/lightdm/lightdm.conf
 
 echo "[Install GRUB]"
 grub-install --recheck /dev/sda --efi-directory=/boot
@@ -85,13 +86,13 @@ chown -R $user_name:users /home/$user_name
 echo "[Copy system settings]"
 cp archconfig/etc/environment /etc/
 cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d/
-cp archconfig/etc/lightdm/display_setup.sh /etc/lightdm/
-cp archconfig/etc/modprobe.d/nvidia.conf /etc/modprobe.d/
+# cp archconfig/etc/lightdm/display_setup.sh /etc/lightdm/
+# cp archconfig/etc/modprobe.d/nvidia.conf /etc/modprobe.d/
 cp archconfig/etc/X11/00-keyboard.conf /etc/X11/xorg.conf.d/
 cp archconfig/etc/X11/10-security.conf /etc/X11/xorg.conf.d/
 cp archconfig/etc/X11/70-synaptics.conf /etc/X11/xorg.conf.d/
 cp archconfig/etc/systemd/system/slock@.service /etc/systemd/system/
-chmod +x /etc/lightdm/display_setup.sh
+# chmod +x /etc/lightdm/display_setup.sh
 
 echo "[Setting udev]"
 udevadm hwdb --update
@@ -99,7 +100,7 @@ udevadm trigger
 
 echo "[Enable service]"
 systemctl enable lightdm.service
-systemctl enable bumblebeed.service
+# systemctl enable bumblebeed.service
 systemctl enable slock@$user_name.service
 
 #dbg
