@@ -4,8 +4,8 @@ echo "[Setup ArchLinux]"
 host_name="anikiforov_nb"
 user_name="anikiforov"
 pass_common="1"
-pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 python3 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-input-synaptics xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers gdb pavucontrol pulseaudio bluez bluez-utils blueman pulseaudio-bluetooth lib32-libglvnd lib32-mesa lib32-nvidia-utils lib32-virtualgl exfat-utils slock htop iotop dmidecode sysstat fzf lsof tcpdump virtualbox qt5-base qt5ct qt5-svg meld"
-pacaur_pkg="oh-my-zsh-git rxvt-unicode-patched sublime-text-dev ttf-fira-code zsh-syntax-highlighting lightdm-webkit2-greeter fzf-extras nnn"
+pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 python3 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-input-synaptics xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers gdb pavucontrol pulseaudio bluez bluez-utils blueman pulseaudio-bluetooth lib32-libglvnd lib32-mesa lib32-nvidia-utils lib32-virtualgl exfat-utils slock htop iotop dmidecode sysstat fzf lsof tcpdump virtualbox virtualbox-host-dkms virtualbox-guest-iso qt5-base qt5ct qt5-svg meld openvpn gwenview imagemagick hicolor-icon-theme deluge remmina pinta flameshot cmake"
+pacaur_pkg="oh-my-zsh-git rxvt-unicode-patched sublime-text-dev ttf-fira-code zsh-syntax-highlighting lightdm-webkit2-greeter fzf-extras nnn numix-icon-theme-git virtualbox-ext-oracle tor-browser-en yandex-disk xnviewmp"
 # bumblebee bbswitch nvidia-dkms
 
 echo "[Set locale and fonts]"
@@ -43,6 +43,8 @@ sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' /et
 echo "[Setup keys]"
 sudo -u $user_name gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com 1EB2638FF56C0C53
 sudo -u $user_name gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com 702353E0F7E48EDB
+sudo -u $user_name gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com D1483FA6C3C07136
+
 
 echo "[Install pacaur]"
 cd /tmp
