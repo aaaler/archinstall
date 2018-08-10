@@ -1,11 +1,12 @@
 #!/bin/bash
 echo "[Setup ArchLinux]"
 
-host_name="anikiforov_nb"
-user_name="anikiforov"
+host_name="mibook"
+user_name="aler"
 pass_common="1"
-pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 python3 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-input-synaptics xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers gdb pavucontrol pulseaudio bluez bluez-utils blueman pulseaudio-bluetooth lib32-libglvnd lib32-mesa lib32-nvidia-utils lib32-virtualgl exfat-utils slock htop iotop dmidecode sysstat fzf lsof tcpdump virtualbox virtualbox-host-dkms virtualbox-guest-iso qt5-base qt5ct qt5-svg meld openvpn gwenview imagemagick hicolor-icon-theme deluge remmina pinta flameshot cmake"
-pacaur_pkg="oh-my-zsh-git rxvt-unicode-patched sublime-text-dev ttf-fira-code zsh-syntax-highlighting lightdm-webkit2-greeter fzf-extras nnn numix-icon-theme-git virtualbox-ext-oracle tor-browser-en yandex-disk xnviewmp"
+#pacman_pkg="grub efibootmgr intel-ucode yajl expac dnsutils xorg-server xorg-xinit xorg-iceauth xorg-sessreg xorg-xcmsdb xorg-xbacklight xorg-xgamma xorg-xhost xorg-xinput xorg-xmodmap xorg-xrandr xorg-xrdb xorg-xrefresh xorg-xset xorg-xsetroot mesa python2 python3 git mc zsh openssh wget dialog wpa_supplicant awesome xf86-video-intel xf86-input-synaptics xorg-fonts-cyrillic xorg-fonts-100dpi ttf-ubuntu-font-family lightdm chromium arandr mesa-demos xsel ttf-droid ttf-dejavu xterm dkms linux-headers gdb pavucontrol pulseaudio bluez bluez-utils blueman pulseaudio-bluetooth lib32-libglvnd lib32-mesa lib32-nvidia-utils lib32-virtualgl exfat-utils slock htop iotop dmidecode sysstat fzf lsof tcpdump virtualbox virtualbox-host-dkms virtualbox-guest-iso qt5-base qt5ct qt5-svg meld openvpn gwenview imagemagick hicolor-icon-theme deluge remmina pinta flameshot cmake"
+pacman_pkg="grub efibootmgr intel-ucode dnsutils bash git mc openssh wget dialog wpa_supplicant"
+pacaur_pkg=""
 # bumblebee bbswitch nvidia-dkms
 
 echo "[Set locale and fonts]"
@@ -19,8 +20,7 @@ setfont cyr-sun16
 echo -e "KEYMAP=ru\nFONT=cyr-sun16\nFONT_MAP=\n" > /etc/vconsole.conf
 
 echo "[Settings pacman]"
-echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf 
-
+echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf
 echo "[Set hostname]"
 echo $host_name > /etc/hostname
 
@@ -33,7 +33,7 @@ pacman -Syu
 pacman -S --noconfirm --needed $pacman_pkg
 
 echo "[Add user]"
-useradd -m -g users -G lp,optical,power,storage,video,audio,wheel -s /bin/zsh $user_name
+useradd -m -g users -G lp,optical,power,storage,video,audio,wheel -s /bin/bash $user_name
 # ,bumblebee
 echo -e "$pass_common\n$pass_common" | passwd
 echo -e "$pass_common\n$pass_common" | passwd $user_name
@@ -76,35 +76,41 @@ sed -i 's/^#greeter-session=.*/greeter-session=lightdm-webkit2-greeter/g' /etc/l
 # sed -i 's/^#display-setup-script=.*/display-setup-script=etc\/lightdm\/display_setup.sh/g' /etc/lightdm/lightdm.conf
 
 echo "[Install GRUB]"
-grub-install --recheck /dev/sda --efi-directory=/boot
+grub-install --recheck ${DISK} --efi-directory=/boot
 sed -i 's/^GRUB_TIMEOUT=5/GRUB_TIMEOUT=1/g' /etc/default/grub
+sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=\/dev\/nvme0n1p2:cryptlvm"/g' /etc/default/grub
+sed -i 's/^#GRUB_ENABLE_CRYPTODISK=y/GRUB_ENABLE_CRYPTODISK=y/g' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
+echo "[Run mkinitcpio]"
+sed -i 's/^HOOKS=(base udev autodetect modconf block filesystems keyboard fsck)/HOOKS=(base udev autodetect keyboard keymap modconf block encrypt lvm2 filesystems fsck)/g' /etc/mkinitcpio.conf
+mkinitcpio -p linux
+
 echo "[Install home]"
-cd /tmp
-git clone https://github.com/nikalexey/archconfig.git
-cp -r archconfig/home/. /home/$user_name/
+curl https://gist.githubusercontent.com/aaaler/4faa0c57aa67de1b0b9ef15f3ee69e8a/raw/.bash_profile > /home/$user_name/.bash_profile
+. /home/$user_name/.bash_profile
+update_profile
 chown -R $user_name:users /home/$user_name
 
-echo "[Copy system settings]"
-cp archconfig/etc/environment /etc/
-cp archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d/
+#echo "[Copy system settings]"
+#p archconfig/etc/environment /etc/
+#p archconfig/etc/udev/hwdb.d/61-key-remap.hwdb /etc/udev/hwdb.d/
 # cp archconfig/etc/lightdm/display_setup.sh /etc/lightdm/
 # cp archconfig/etc/modprobe.d/nvidia.conf /etc/modprobe.d/
-cp archconfig/etc/X11/00-keyboard.conf /etc/X11/xorg.conf.d/
-cp archconfig/etc/X11/10-security.conf /etc/X11/xorg.conf.d/
-cp archconfig/etc/X11/70-synaptics.conf /etc/X11/xorg.conf.d/
-cp archconfig/etc/systemd/system/slock@.service /etc/systemd/system/
+#p archconfig/etc/X11/00-keyboard.conf /etc/X11/xorg.conf.d/
+#p archconfig/etc/X11/10-security.conf /etc/X11/xorg.conf.d/
+#p archconfig/etc/X11/70-synaptics.conf /etc/X11/xorg.conf.d/
+#p archconfig/etc/systemd/system/slock@.service /etc/systemd/system/
 # chmod +x /etc/lightdm/display_setup.sh
 
-echo "[Setting udev]"
-udevadm hwdb --update
-udevadm trigger
+#cho "[Setting udev]"
+#udevadm hwdb --update
+#udevadm trigger
 
-echo "[Enable service]"
-systemctl enable lightdm.service
+#echo "[Enable service]"
+#systemctl enable lightdm.service
 # systemctl enable bumblebeed.service
-systemctl enable slock@$user_name.service
+#systemctl enable slock@$user_name.service
 
 #dbg
 # echo -e "exec awesome\n" > /home/$user_name/.xinitrc

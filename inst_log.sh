@@ -1,29 +1,51 @@
 #!/bin/bash
+DISK=/dev/nvme0n1
+export DISK
 
 echo "Start install ArchLinux"
+echo "[Remove old LVM]"
+vgremove vg0
+pvremove ${DISK}p2
+cryptsetup close cryptlvm
+
+echo "[Partition disk]"
+parted -s ${DISK} mklabel gpt
+parted -s -a optimal ${DISK} mkpart primary 0% 512MB
+parted -s -a optimal ${DISK} mkpart primary 512MB 100%
+
+echo "[Encrypt disk]"
+cryptsetup luksFormat ${DISK}p2
+cryptsetup open ${DISK}p2 cryptlvm
+
+echo "[Setup LVM]"
+pvcreate /dev/mapper/cryptlvm
+vgcreate vg0 /dev/mapper/cryptlvm
+lvcreate -L 48G vg0 -n root
+lvcreate -L 8G vg0 -n swap
+lvcreate -l 100%FREE vg0 -n home
 
 echo "[Make FS]"
-mkfs.fat -F32 /dev/nvme0n1p1
-mkfs.ext4 -F /dev/nvme0n1p3
-mkfs.ext4 -F /dev/nvme0n1p4
+mkfs.fat -F32 ${DISK}p1
+mkfs.ext4 -F /dev/vg0/root
+mkfs.ext4 -F /dev/vg0/home
 
 echo "[Make swap]"
-mkswap /dev/nvme0n1p2
+mkswap /dev/vg0/swap
 swapon
 
 echo "[Mount FS]"
-mount /dev/nvme0n1p3 /mnt
+mount /dev/vg0/root /mnt
 mkdir /mnt/boot
 mkdir /mnt/home
-mount /dev/nvme0n1p1 /mnt/boot
-mount /dev/nvme0n1p4 /mnt/home
+mount ${DISK}p1 /mnt/boot
+mount /dev/vg0/home /mnt/home
 
 echo "[Set locale]"
 loadkeys ru
 setfont cyr-sun16
 echo -e "en_US.UTF-8 UTF-8\nru_RU.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
-export LANG=ru_RU.UTF-8
+export LANG=en_US.UTF-8
 
 echo "[Set time]"
 timedatectl set-timezone Europe/Moscow
@@ -43,7 +65,7 @@ echo "[Generated fatab]"
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
 echo "[Install chroot script]"
-wget https://raw.githubusercontent.com/nikalexey/archinstall/master/chroot_inst.sh
+[ -f chroot_inst.sh ] || exit 1
 chmod +x chroot_inst.sh
 mkdir /mnt/install
 cp chroot_inst.sh /mnt/install/chroot_inst.sh
